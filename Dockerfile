@@ -66,9 +66,9 @@ USER frappe
 # Set working directory
 WORKDIR /home/frappe/frappe-bench
 
-# Install ERPMAX app
-RUN bench get-app --skip-assets erpmax ./apps/erpmax \
-    && bench build --app erpmax
+# Build ERPMAX app assets (without installing the app)
+# App installation will happen at runtime in start.sh
+RUN bench build --app erpmax
 
 # Switch back to root for final setup
 USER root
