@@ -1,0 +1,22 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "docker/Dockerfile"
+
+[deploy]
+startCommand = "./scripts/start.sh"
+healthcheckPath = "/api/method/ping"
+healthcheckTimeout = 300
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
+
+[env]
+FRAPPE_SITE_NAME_HEADER = "erpmax"
+APP_NAME = "erpmax"
+APP_TITLE = "ERPMAX"
+DB_HOST = "${RAILWAY_PRIVATE_DOMAIN}"
+REDIS_CACHE_URL = "redis://redis-cache:6379"
+REDIS_QUEUE_URL = "redis://redis-queue:6379"
+FRAPPE_DB_HOST = "${DATABASE_PRIVATE_URL}"
+FRAPPE_DB_NAME = "erpmax"
+FRAPPE_DB_USER = "root"
+FRAPPE_DB_PASSWORD = "${MYSQL_ROOT_PASSWORD}"

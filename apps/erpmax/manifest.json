@@ -1,0 +1,122 @@
+{
+  "app_name": "erpmax",
+  "app_title": "ERPMAX",
+  "app_publisher": "ERPMAX Team",
+  "app_description": "Enhanced ERP solution built on ERPNext with modern features and improved performance",
+  "app_icon": "fa fa-cube",
+  "app_color": "#1976D2",
+  "app_email": "info@erpmax.com",
+  "app_license": "GNU General Public License (v3)",
+  "app_logo_url": "/assets/erpmax/images/erpmax-logo.svg",
+  "app_version": "1.0.0",
+  "required_apps": [
+    "frappe",
+    "erpnext"
+  ],
+  "min_frappe_version": "15.0.0",
+  "min_erpnext_version": "15.0.0",
+  "features": [
+    "Modern UI/UX",
+    "Enhanced Performance",
+    "Advanced Analytics",
+    "Custom Branding",
+    "Mobile Responsive",
+    "Dark Mode Support",
+    "Real-time Updates",
+    "Enhanced Security"
+  ],
+  "categories": [
+    "ERP",
+    "Business Management",
+    "Accounting",
+    "Inventory",
+    "CRM",
+    "HR"
+  ],
+  "keywords": [
+    "erp",
+    "business",
+    "accounting",
+    "inventory",
+    "crm",
+    "hr",
+    "sales",
+    "purchase",
+    "manufacturing"
+  ],
+  "homepage": "https://github.com/yourusername/erpmax",
+  "documentation": "https://docs.erpmax.com",
+  "support": "https://github.com/yourusername/erpmax/issues",
+  "repository": "https://github.com/yourusername/erpmax.git",
+  "bug_reports": "https://github.com/yourusername/erpmax/issues",
+  "social": {
+    "twitter": "@erpmax",
+    "discord": "https://discord.gg/erpmax",
+    "linkedin": "https://linkedin.com/company/erpmax"
+  },
+  "screenshots": [
+    "/assets/erpmax/images/screenshots/dashboard.png",
+    "/assets/erpmax/images/screenshots/sales.png",
+    "/assets/erpmax/images/screenshots/reports.png"
+  ],
+  "demo_url": "https://demo.erpmax.com",
+  "pricing": {
+    "type": "free",
+    "plans": [
+      {
+        "name": "Community",
+        "price": "Free",
+        "features": [
+          "Core ERP Features",
+          "Community Support",
+          "Basic Customization"
+        ]
+      },
+      {
+        "name": "Professional",
+        "price": "$29/month",
+        "features": [
+          "All Community Features",
+          "Priority Support",
+          "Advanced Analytics",
+          "Custom Integrations"
+        ]
+      },
+      {
+        "name": "Enterprise",
+        "price": "Custom",
+        "features": [
+          "All Professional Features",
+          "Dedicated Support",
+          "Custom Development",
+          "On-premise Deployment"
+        ]
+      }
+    ]
+  },
+  "installation": {
+    "requirements": [
+      "Python 3.8+",
+      "Node.js 14+",
+      "MariaDB 10.3+",
+      "Redis 5+"
+    ],
+    "steps": [
+      "bench get-app erpmax",
+      "bench install-app erpmax",
+      "bench restart"
+    ]
+  },
+  "compatibility": {
+    "frappe": ">=15.0.0",
+    "erpnext": ">=15.0.0",
+    "python": ">=3.8",
+    "node": ">=14.0.0"
+  },
+  "build_info": {
+    "build_date": "2025-10-07",
+    "build_version": "1.0.0",
+    "git_commit": "latest",
+    "environment": "production"
+  }
+}

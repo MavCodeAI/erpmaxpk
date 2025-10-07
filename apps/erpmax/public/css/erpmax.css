@@ -1,0 +1,322 @@
+/* ERPMAX Custom Styles - 2025 Modern UI */
+
+:root {
+  /* ERPMAX Brand Colors */
+  --erpmax-primary: #1976D2;
+  --erpmax-secondary: #FFC107;
+  --erpmax-success: #4CAF50;
+  --erpmax-danger: #F44336;
+  --erpmax-warning: #FF9800;
+  --erpmax-info: #2196F3;
+  --erpmax-dark: #212121;
+  --erpmax-light: #F5F5F5;
+  
+  /* Modern gradients */
+  --erpmax-gradient-primary: linear-gradient(135deg, #1976D2 0%, #42A5F5 100%);
+  --erpmax-gradient-secondary: linear-gradient(135deg, #FFC107 0%, #FFD54F 100%);
+  
+  /* Shadows */
+  --erpmax-shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+  --erpmax-shadow-md: 0 4px 8px rgba(0,0,0,0.12);
+  --erpmax-shadow-lg: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+/* Global ERPMAX Branding */
+.navbar-brand img {
+  height: 32px;
+  width: auto;
+}
+
+.erpmax-logo {
+  height: 24px;
+  width: auto;
+}
+
+/* Modern Card Styling */
+.frappe-card,
+.card {
+  border-radius: 12px;
+  border: none;
+  box-shadow: var(--erpmax-shadow-md);
+  transition: all 0.3s ease;
+}
+
+.frappe-card:hover,
+.card:hover {
+  box-shadow: var(--erpmax-shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* Modern Buttons */
+.btn-primary {
+  background: var(--erpmax-gradient-primary);
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--erpmax-shadow-md);
+}
+
+.btn-secondary {
+  background: var(--erpmax-gradient-secondary);
+  border: none;
+  border-radius: 8px;
+  color: var(--erpmax-dark);
+  font-weight: 500;
+}
+
+/* Modern Form Controls */
+.form-control {
+  border-radius: 8px;
+  border: 2px solid #E0E0E0;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: var(--erpmax-primary);
+  box-shadow: 0 0 0 0.2rem rgba(25, 118, 210, 0.25);
+}
+
+/* Modern Navigation */
+.navbar {
+  background: linear-gradient(90deg, var(--erpmax-primary) 0%, #1565C0 100%);
+  box-shadow: var(--erpmax-shadow-md);
+}
+
+.navbar-nav .nav-link {
+  color: white !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+}
+
+/* Modern Sidebar */
+.desk-sidebar {
+  background: var(--erpmax-light);
+  border-right: 1px solid #E0E0E0;
+}
+
+.desk-sidebar .sidebar-item {
+  border-radius: 8px;
+  margin: 2px 8px;
+  transition: all 0.3s ease;
+}
+
+.desk-sidebar .sidebar-item:hover {
+  background: var(--erpmax-primary);
+  color: white;
+}
+
+/* Modern Tables */
+.table {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--erpmax-shadow-sm);
+}
+
+.table thead th {
+  background: var(--erpmax-gradient-primary);
+  color: white;
+  border: none;
+  font-weight: 600;
+}
+
+.table tbody tr {
+  transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+  background: rgba(25, 118, 210, 0.05);
+}
+
+/* Modern Dashboard Cards */
+.dashboard-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: var(--erpmax-shadow-md);
+  padding: 24px;
+  margin-bottom: 24px;
+  transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--erpmax-shadow-lg);
+}
+
+.dashboard-card .card-title {
+  color: var(--erpmax-primary);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* Modern Statistics */
+.number-card {
+  background: var(--erpmax-gradient-primary);
+  color: white;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: var(--erpmax-shadow-md);
+}
+
+.number-card .number {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.number-card .label {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* Modern Alerts */
+.alert {
+  border-radius: 8px;
+  border: none;
+  box-shadow: var(--erpmax-shadow-sm);
+}
+
+.alert-success {
+  background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+  color: white;
+}
+
+.alert-danger {
+  background: linear-gradient(135deg, #F44336 0%, #EF5350 100%);
+  color: white;
+}
+
+.alert-warning {
+  background: linear-gradient(135deg, #FF9800 0%, #FFB74D 100%);
+  color: white;
+}
+
+.alert-info {
+  background: linear-gradient(135deg, #2196F3 0%, #42A5F5 100%);
+  color: white;
+}
+
+/* Modern Modal */
+.modal-content {
+  border-radius: 12px;
+  border: none;
+  box-shadow: var(--erpmax-shadow-lg);
+}
+
+.modal-header {
+  background: var(--erpmax-gradient-primary);
+  color: white;
+  border-radius: 12px 12px 0 0;
+  border-bottom: none;
+}
+
+.modal-title {
+  font-weight: 600;
+}
+
+/* Modern Progress Bars */
+.progress {
+  height: 8px;
+  border-radius: 4px;
+  background: #E0E0E0;
+}
+
+.progress-bar {
+  background: var(--erpmax-gradient-primary);
+  border-radius: 4px;
+}
+
+/* Modern Loading Spinner */
+.loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(25, 118, 210, 0.3);
+  border-radius: 50%;
+  border-top-color: var(--erpmax-primary);
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Modern Footer */
+.footer {
+  background: var(--erpmax-dark);
+  color: white;
+  padding: 20px 0;
+  margin-top: 40px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-card {
+    margin-bottom: 16px;
+    padding: 16px;
+  }
+  
+  .number-card .number {
+    font-size: 1.5rem;
+  }
+}
+
+/* Custom ERPMAX Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --erpmax-light: #2D2D2D;
+    --erpmax-dark: #F5F5F5;
+  }
+  
+  .dashboard-card {
+    background: #1E1E1E;
+    color: white;
+  }
+  
+  .table {
+    background: #1E1E1E;
+    color: white;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .navbar,
+  .sidebar,
+  .btn,
+  .modal {
+    display: none !important;
+  }
+  
+  .dashboard-card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+}

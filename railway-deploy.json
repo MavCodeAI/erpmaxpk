@@ -1,0 +1,110 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "docker/Dockerfile"
+  },
+  "deploy": {
+    "numReplicas": 1,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 3,
+    "startCommand": "./scripts/start.sh",
+    "healthcheckPath": "/api/method/ping",
+    "healthcheckTimeout": 300
+  },
+  "environments": {
+    "production": {
+      "variables": {
+        "FRAPPE_SITE_NAME_HEADER": "erpmax",
+        "APP_NAME": "erpmax", 
+        "APP_TITLE": "ERPMAX",
+        "RAILWAY_ENVIRONMENT": "production",
+        "MYSQL_ROOT_PASSWORD": "${{MYSQL_ROOT_PASSWORD}}",
+        "ENCRYPTION_KEY": "${{ENCRYPTION_KEY}}",
+        "SECRET_KEY": "${{SECRET_KEY}}",
+        "FRAPPE_DB_HOST": "${{DATABASE_PRIVATE_URL}}",
+        "FRAPPE_DB_NAME": "erpmax",
+        "FRAPPE_DB_USER": "root",
+        "FRAPPE_DB_PASSWORD": "${{MYSQL_ROOT_PASSWORD}}",
+        "REDIS_CACHE_URL": "redis://redis-cache:6379",
+        "REDIS_QUEUE_URL": "redis://redis-queue:6379"
+      }
+    }
+  },
+  "services": [
+    {
+      "name": "erpmax",
+      "source": {
+        "type": "image",
+        "image": "registry.railway.app/erpmax:latest"
+      },
+      "variables": {
+        "FRAPPE_SITE_NAME_HEADER": "erpmax",
+        "APP_NAME": "erpmax",
+        "APP_TITLE": "ERPMAX",
+        "RAILWAY_ENVIRONMENT": "production"
+      }
+    },
+    {
+      "name": "database",
+      "source": {
+        "type": "image", 
+        "image": "mariadb:10.6"
+      },
+      "variables": {
+        "MYSQL_ROOT_PASSWORD": "${{MYSQL_ROOT_PASSWORD}}",
+        "MYSQL_DATABASE": "erpmax",
+        "MYSQL_USER": "erpmax",
+        "MYSQL_PASSWORD": "${{MYSQL_PASSWORD}}"
+      },
+      "volumes": [
+        {
+          "name": "mysql-data",
+          "mountPath": "/var/lib/mysql"
+        }
+      ]
+    },
+    {
+      "name": "redis-cache",
+      "source": {
+        "type": "image",
+        "image": "redis:7-alpine"
+      },
+      "variables": {},
+      "volumes": [
+        {
+          "name": "redis-cache-data", 
+          "mountPath": "/data"
+        }
+      ]
+    },
+    {
+      "name": "redis-queue",
+      "source": {
+        "type": "image",
+        "image": "redis:7-alpine"
+      },
+      "variables": {},
+      "volumes": [
+        {
+          "name": "redis-queue-data",
+          "mountPath": "/data"
+        }
+      ]
+    }
+  ],
+  "volumes": [
+    {
+      "name": "mysql-data"
+    },
+    {
+      "name": "redis-cache-data"
+    },
+    {
+      "name": "redis-queue-data"
+    },
+    {
+      "name": "sites-data"
+    }
+  ]
+}

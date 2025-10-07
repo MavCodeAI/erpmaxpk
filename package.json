@@ -1,0 +1,60 @@
+{
+  "name": "erpmax",
+  "version": "1.0.0",
+  "description": "Enhanced ERP solution built on ERPNext with modern features and Railway deployment",
+  "main": "apps/erpmax/public/js/erpmax.js",
+  "scripts": {
+    "build": "bench build --app erpmax",
+    "start": "./scripts/start.sh",
+    "dev": "bench start",
+    "test": "bench run-tests --app erpmax",
+    "deploy": "railway deploy",
+    "setup": "npm install && ./scripts/setup.sh",
+    "build-assets": "bench build --app erpmax",
+    "watch": "bench watch",
+    "migrate": "bench migrate",
+    "backup": "bench backup"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/erpmax.git"
+  },
+  "keywords": [
+    "erpnext",
+    "erp",
+    "business",
+    "accounting",
+    "inventory",
+    "crm",
+    "railway",
+    "docker",
+    "frappe"
+  ],
+  "author": "ERPMAX Team <info@erpmax.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/yourusername/erpmax/issues"
+  },
+  "homepage": "https://github.com/yourusername/erpmax#readme",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "@railway/cli": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "railway": {
+    "build": {
+      "builder": "dockerfile",
+      "dockerfilePath": "docker/Dockerfile"
+    },
+    "deploy": {
+      "startCommand": "./scripts/start.sh",
+      "healthcheckPath": "/api/method/ping"
+    }
+  }
+}

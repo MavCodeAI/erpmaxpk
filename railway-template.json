@@ -1,0 +1,218 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "docker/Dockerfile"
+  },
+  "deploy": {
+    "numReplicas": 1,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 3,
+    "startCommand": "./scripts/start.sh",
+    "healthcheckPath": "/api/method/ping",
+    "healthcheckTimeout": 300
+  },
+  "services": [
+    {
+      "name": "erpmax",
+      "build": {
+        "builder": "dockerfile",
+        "dockerfilePath": "docker/Dockerfile"
+      },
+      "variables": {
+        "FRAPPE_SITE_NAME_HEADER": "erpmax",
+        "APP_NAME": "erpmax",
+        "APP_TITLE": "ERPMAX",
+        "RAILWAY_ENVIRONMENT": "production",
+        "PORT": "8000",
+        "MYSQL_ROOT_PASSWORD": {
+          "generator": {
+            "type": "secret",
+            "length": 32
+          }
+        },
+        "MYSQL_PASSWORD": {
+          "generator": {
+            "type": "secret", 
+            "length": 24
+          }
+        },
+        "ENCRYPTION_KEY": {
+          "generator": {
+            "type": "secret",
+            "length": 32
+          }
+        },
+        "SECRET_KEY": {
+          "generator": {
+            "type": "secret",
+            "length": 48
+          }
+        },
+        "FRAPPE_DB_HOST": "${{database.RAILWAY_PRIVATE_DOMAIN}}",
+        "FRAPPE_DB_NAME": "erpmax",
+        "FRAPPE_DB_USER": "root",
+        "FRAPPE_DB_PASSWORD": "${{MYSQL_ROOT_PASSWORD}}",
+        "REDIS_CACHE_URL": "redis://${{redis.RAILWAY_PRIVATE_DOMAIN}}:6379/0",
+        "REDIS_QUEUE_URL": "redis://${{redis.RAILWAY_PRIVATE_DOMAIN}}:6379/1",
+        "REDIS_SOCKETIO_URL": "redis://${{redis.RAILWAY_PRIVATE_DOMAIN}}:6379/2"
+      },
+      "domains": ["${{RAILWAY_STATIC_URL}}"],
+      "ports": [
+        {
+          "containerPort": 8000,
+          "protocol": "http"
+        }
+      ],
+      "healthcheck": {
+        "path": "/api/method/ping",
+        "timeout": 30,
+        "interval": 60
+      },
+      "dependencies": ["database", "redis"]
+    },
+    {
+      "name": "database",
+      "image": "mariadb:10.6",
+      "variables": {
+        "MYSQL_ROOT_PASSWORD": "${{MYSQL_ROOT_PASSWORD}}",
+        "MYSQL_DATABASE": "erpmax",
+        "MYSQL_USER": "erpmax", 
+        "MYSQL_PASSWORD": "${{MYSQL_PASSWORD}}"
+      },
+      "command": [
+        "mysqld",
+        "--character-set-server=utf8mb4",
+        "--collation-server=utf8mb4_unicode_ci",
+        "--innodb-buffer-pool-size=512M",
+        "--innodb-log-file-size=128M",
+        "--max-connections=200",
+        "--innodb-flush-log-at-trx-commit=2"
+      ],
+      "volumes": [
+        {
+          "name": "mysql-data",
+          "mountPath": "/var/lib/mysql"
+        }
+      ],
+      "healthcheck": {
+        "command": ["mysqladmin", "ping", "-h", "localhost"],
+        "timeout": 20,
+        "interval": 30,
+        "retries": 10
+      }
+    },
+    {
+      "name": "redis",
+      "image": "redis:7-alpine",
+      "command": [
+        "redis-server",
+        "--appendonly", "yes",
+        "--maxmemory", "256mb",
+        "--maxmemory-policy", "allkeys-lru",
+        "--save", "900", "1",
+        "--save", "300", "10",
+        "--save", "60", "10000"
+      ],
+      "volumes": [
+        {
+          "name": "redis-data",
+          "mountPath": "/data"
+        }
+      ],
+      "healthcheck": {
+        "command": ["redis-cli", "ping"],
+        "timeout": 10,
+        "interval": 30,
+        "retries": 3
+      }
+    }
+  ],
+  "volumes": [
+    {
+      "name": "mysql-data"
+    },
+    {
+      "name": "redis-data"
+    },
+    {
+      "name": "sites-data"
+    },
+    {
+      "name": "logs-data"
+    }
+  ],
+  "metadata": {
+    "name": "ERPMAX",
+    "description": "Enhanced ERP solution built on ERPNext with modern features and Railway deployment",
+    "version": "1.0.0",
+    "author": "ERPMAX Team",
+    "homepage": "https://github.com/yourusername/erpmax",
+    "documentation": "https://docs.erpmax.com",
+    "tags": ["erp", "business", "accounting", "inventory", "crm", "hr"],
+    "category": "Business",
+    "logo": "https://raw.githubusercontent.com/yourusername/erpmax/main/apps/erpmax/public/images/erpmax-logo.svg"
+  },
+  "variables": {
+    "FRAPPE_SITE_NAME_HEADER": {
+      "description": "Site name header for ERPMAX",
+      "default": "erpmax"
+    },
+    "APP_NAME": {
+      "description": "Application name",
+      "default": "erpmax"
+    },
+    "APP_TITLE": {
+      "description": "Application title",
+      "default": "ERPMAX"
+    },
+    "MYSQL_ROOT_PASSWORD": {
+      "description": "MySQL root password (auto-generated)",
+      "generator": {
+        "type": "secret",
+        "length": 32
+      }
+    },
+    "MYSQL_PASSWORD": {
+      "description": "MySQL user password (auto-generated)",
+      "generator": {
+        "type": "secret",
+        "length": 24
+      }
+    },
+    "ENCRYPTION_KEY": {
+      "description": "Encryption key for sensitive data (auto-generated)",
+      "generator": {
+        "type": "secret",
+        "length": 32
+      }
+    },
+    "SECRET_KEY": {
+      "description": "Secret key for sessions (auto-generated)",
+      "generator": {
+        "type": "secret",
+        "length": 48
+      }
+    },
+    "MAIL_SERVER": {
+      "description": "Email server (optional)",
+      "default": "",
+      "optional": true
+    },
+    "MAIL_PORT": {
+      "description": "Email server port",
+      "default": "587",
+      "optional": true
+    },
+    "MAIL_USERNAME": {
+      "description": "Email username (optional)",
+      "default": "",
+      "optional": true
+    },
+    "MAIL_PASSWORD": {
+      "description": "Email password (optional)",
+      "default": "",
+      "optional": true
+    }
+  }
+}

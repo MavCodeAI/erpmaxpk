@@ -1,0 +1,88 @@
+# Railway Deployment Configuration for ERPMAX
+build:
+  builder: dockerfile
+  dockerfilePath: docker/Dockerfile
+
+deploy:
+  startCommand: ./scripts/start.sh
+  healthcheckPath: /api/method/ping
+  healthcheckTimeout: 300
+  restartPolicyType: ON_FAILURE
+  restartPolicyMaxRetries: 3
+  numReplicas: 1
+
+services:
+  # Main ERPMAX Application
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    environment:
+      FRAPPE_SITE_NAME_HEADER: erpmax
+      APP_NAME: erpmax
+      APP_TITLE: ERPMAX
+      RAILWAY_ENVIRONMENT: production
+      PORT: 8000
+    healthcheck:
+      path: /api/method/ping
+      timeout: 30
+      interval: 60
+    dependencies:
+      - database
+      - redis
+
+  # MariaDB Database
+  database:
+    image: mariadb:10.6
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_DATABASE: erpmax
+      MYSQL_USER: erpmax
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --innodb-buffer-pool-size=512M
+      --innodb-log-file-size=128M
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20
+      retries: 10
+
+  # Redis Cache & Queue
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30
+      timeout: 10
+      retries: 3
+
+volumes:
+  mysql_data:
+  redis_data:
+  sites_data:
+  logs_data:
+
+variables:
+  FRAPPE_SITE_NAME_HEADER: erpmax
+  APP_NAME: erpmax
+  APP_TITLE: ERPMAX
+  RAILWAY_ENVIRONMENT: production
+  MYSQL_ROOT_PASSWORD: 
+    generate: true
+    length: 32
+  MYSQL_PASSWORD:
+    generate: true  
+    length: 24
+  ENCRYPTION_KEY:
+    generate: true
+    length: 32
+  SECRET_KEY:
+    generate: true
+    length: 48

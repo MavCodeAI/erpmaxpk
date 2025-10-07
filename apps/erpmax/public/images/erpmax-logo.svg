@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1976D2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#42A5F5;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Icon/Symbol -->
+  <g transform="translate(5,5)">
+    <!-- Main cube -->
+    <rect x="0" y="10" width="20" height="20" rx="3" fill="url(#logo-gradient)" />
+    
+    <!-- Top face -->
+    <polygon points="0,10 10,0 30,0 20,10" fill="#1565C0" opacity="0.8" />
+    
+    <!-- Right face -->
+    <polygon points="20,10 30,0 30,20 20,30" fill="#0D47A1" opacity="0.6" />
+    
+    <!-- Highlight -->
+    <rect x="2" y="12" width="6" height="6" rx="1" fill="white" opacity="0.3" />
+  </g>
+  
+  <!-- Text -->
+  <g transform="translate(40,8)">
+    <!-- ERP -->
+    <text x="0" y="16" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1976D2">
+      ERP
+    </text>
+    
+    <!-- MAX -->
+    <text x="0" y="32" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#42A5F5">
+      MAX
+    </text>
+  </g>
+  
+  <!-- Tagline -->
+  <text x="40" y="38" font-family="Arial, sans-serif" font-size="6" fill="#757575">
+    Enhanced Business Solutions
+  </text>
+</svg>

@@ -1,0 +1,110 @@
+# ERPMAX Docker Compose - Railway Deployment
+version: '3.8'
+
+services:
+  # MariaDB Database
+  db:
+    image: mariadb:10.6
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-admin123}
+      MYSQL_DATABASE: erpmax
+      MYSQL_USER: erpmax
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-erpmax123}
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --skip-character-set-client-handshake
+      --skip-innodb-read-only-compressed
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Redis Cache
+  redis-cache:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_cache_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis Queue
+  redis-queue:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6380:6379"
+    command: redis-server --appendonly yes --port 6379
+    volumes:
+      - redis_queue_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ERPMAX Application
+  erpmax:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      redis-cache:
+        condition: service_healthy
+      redis-queue:
+        condition: service_healthy
+    environment:
+      - FRAPPE_SITE_NAME_HEADER=erpmax
+      - APP_NAME=erpmax
+      - APP_TITLE=ERPMAX
+      - FRAPPE_DB_HOST=db
+      - FRAPPE_DB_NAME=erpmax
+      - FRAPPE_DB_USER=root
+      - FRAPPE_DB_PASSWORD=${MYSQL_ROOT_PASSWORD:-admin123}
+      - REDIS_CACHE_URL=redis://redis-cache:6379
+      - REDIS_QUEUE_URL=redis://redis-queue:6379
+      - RAILWAY_ENVIRONMENT=${RAILWAY_ENVIRONMENT:-production}
+    ports:
+      - "80:80"
+      - "8000:8000"
+      - "9000:9000"
+    volumes:
+      - sites_data:/home/frappe/frappe-bench/sites
+      - logs_data:/home/frappe/frappe-bench/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/method/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+
+volumes:
+  db_data:
+    driver: local
+  redis_cache_data:
+    driver: local
+  redis_queue_data:
+    driver: local
+  sites_data:
+    driver: local
+  logs_data:
+    driver: local
+
+networks:
+  default:
+    name: erpmax-network
