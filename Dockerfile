@@ -66,6 +66,12 @@ USER frappe
 # Set working directory
 WORKDIR /home/frappe/frappe-bench
 
+# Initialize bench and link ERPMAX app before building
+RUN bench init --skip-redis-config-generation .
+RUN mkdir -p apps
+RUN ln -sf /home/frappe/frappe-bench/apps/erpmax apps/erpmax
+RUN echo 'apps/erpmax' >> sites/apps.txt
+
 # Build ERPMAX app assets (without installing the app)
 # App installation will happen at runtime in start.sh
 RUN bench build --app erpmax

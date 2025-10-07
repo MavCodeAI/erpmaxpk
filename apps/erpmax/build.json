@@ -1,0 +1,14 @@
+{
+    "js": {
+        "erpmax": [
+            "public/js/erpmax.js",
+            "public/js/custom-scripts.js"
+        ]
+    },
+    "css": {
+        "erpmax": [
+            "public/css/erpmax.css",
+            "public/css/custom-theme.css"
+        ]
+    }
+}
