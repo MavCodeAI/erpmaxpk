@@ -50,8 +50,15 @@ USER frappe
 # Set working directory
 WORKDIR /home/frappe/frappe-bench
 
-# Install ERPMAX app
+# Initialize Git repo and install ERPMAX app
 RUN cd /home/frappe/frappe-bench && \
+    cd ./apps/erpmax && \
+    git init && \
+    git config --global user.email "erpmax@example.com" && \
+    git config --global user.name "ERPMAX" && \
+    git add . && \
+    git commit -m "Initial commit" && \
+    cd /home/frappe/frappe-bench && \
     bench get-app --skip-assets erpmax ./apps/erpmax && \
     bench build --app erpmax
 
