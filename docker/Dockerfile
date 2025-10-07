@@ -50,10 +50,9 @@ USER frappe
 # Set working directory
 WORKDIR /home/frappe/frappe-bench
 
-# Install ERPMAX app without Git repository requirement
-# Using install-app instead of get-app to avoid Git repository check
+# Build ERPMAX app (without installing it)
+# Installation will happen at runtime in start.sh
 RUN cd /home/frappe/frappe-bench && \
-    bench install-app erpmax && \
     bench build --app erpmax
 
 # Expose ports
